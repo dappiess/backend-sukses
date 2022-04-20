@@ -1,0 +1,29 @@
+{
+    "name": "laundry",
+    "version": "1.0.0",
+    "description": "laundry app for ukl with node express mysql and react",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon index.js"
+    },
+    "author": "saturniesm",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.20.0",
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.0",
+        "env": "^0.0.2",
+        "express": "^4.17.3",
+        "fs-extra": "^10.1.0",
+        "jsonwebtoken": "^8.5.1",
+        "md5": "^2.3.0",
+        "multer": "^1.4.4",
+        "mysql2": "^2.3.3",
+        "nodemon": "^2.0.15",
+        "path": "^0.12.7",
+        "sequelize": "^6.19.0",
+        "sequelize-cli": "^6.4.1",
+        "sqlite3": "^5.0.4"
+    }
+}
