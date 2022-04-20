@@ -35,6 +35,7 @@ app.post("/", async(request, response) => {
     }
 });
 
+
 const auth = (request, response, next) => {
     let header = request.headers.authorization;
     let token = header && header.split(" ")[1];
