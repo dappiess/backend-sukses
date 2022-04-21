@@ -2,11 +2,11 @@ const express = require("express");
 const app = express();
 const user = require("../models/index").user;
 const md5 = require("md5");
-const { auth } = require("./auth/auth");
+const { auth } = require("../auth");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs-extra");
-// app.use(auth);
+app.use(auth);
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {

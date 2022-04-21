@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const paket = require("../models/index").paket;
-const { auth } = require("./auth/auth");
+const { auth } = require("../auth");
 // app.use(auth);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

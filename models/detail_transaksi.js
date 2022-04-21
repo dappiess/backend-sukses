@@ -29,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       total_harga: DataTypes.INTEGER,
     },
     {
+      freezeTableName: true,
       sequelize,
       modelName: "detail_transaksi",
     }
