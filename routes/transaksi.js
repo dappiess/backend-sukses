@@ -34,24 +34,24 @@ app.get("/", async (req, res) => {
     })
 
     .then((result) => {
-      res.json(result);
-    })
-    .catch((error) => {
-      res.json({
-        message: error.message,
-      });
-    });
+            res.json(result);
+        })
+        .catch((error) => {
+            res.json({
+                message: error.message,
+            });
+        });
 });
 
-app.get("/:id", async (req, res) => {
-  transaksi
-    .findOne({ where: { id: req.params.id } })
-    .then((transaksi) => {
-      res.json(transaksi);
-    })
-    .catch((error) => {
-      res.json({ message: error.message });
-    });
+app.get("/:id", async(req, res) => {
+    transaksi
+        .findOne({ where: { id: req.params.id } })
+        .then((transaksi) => {
+            res.json(transaksi);
+        })
+        .catch((error) => {
+            res.json({ message: error.message });
+        });
 });
 
 app.post("/", async (req, res) => {
@@ -96,12 +96,8 @@ app.post("/", async (req, res) => {
           });
         })
         .catch((error) => {
-          res.json(error);
+            res.json(error);
         });
-    })
-    .catch((error) => {
-      res.json(error);
-    });
 });
 
 app.put("/bayar/:id", async (req, res) => {
@@ -151,51 +147,80 @@ app.put("/", async (req, res) => {
     id: req.body.id,
   };
 
-  let newTransaksi = {
-    id_outlet: req.body.id_outlet,
-    kode_invoice: req.body.kode_invoice,
-    id_member: req.body.id_member,
-    tgl: tgl,
-    batas_waktu: batas,
-    tgl_bayar: tanggal,
-    biaya_tambahan: req.body.biaya_tambahan,
-    status: req.body.status,
-    dibayar: req.body.dibayar,
-    id_user: req.body.id_user,
-  };
+    if (tagihan.total_harga > data.total_bayar) {
+        res.json({
+            status: "error",
+            message: "maaf uang anda kurang"
+        })
+    } else {
+        detail_transaksi.update(data, { where: { id: params } })
+            .then(() => {
+                transaksi.update(data2, { where: { id: params } })
+                    .then(() => {
+                        res.json({
+                            message: "Pembayaran berhasil"
+                        })
+                    })
+                    .catch(error => {
+                        res.json(error)
+                    })
+            })
+            .catch(error => {
+                res.json(error)
+            })
+    }
+})
 
-  transaksi
-    .update(newTransaksi, { where: param })
-    .then((result) => {
-      res.json({
-        message: "Data Updated",
-        newTransaksi: result,
-      });
-    })
-    .catch((error) => {
-      res.json({
-        message: error.message,
-      });
-    });
+app.put("/", async(req, res) => {
+    let param = {
+        id: req.body.id,
+    };
+
+    let newTransaksi = {
+        id_outlet: req.body.id_outlet,
+        kode_invoice: req.body.kode_invoice,
+        id_member: req.body.id_member,
+        tgl: tgl,
+        batas_waktu: batas,
+        tgl_bayar: tanggal,
+        biaya_tambahan: req.body.biaya_tambahan,
+        status: req.body.status,
+        dibayar: req.body.dibayar,
+        id_user: req.body.id_user,
+    };
+
+    transaksi
+        .update(newTransaksi, { where: param })
+        .then((result) => {
+            res.json({
+                message: "Data Updated",
+                newTransaksi: result,
+            });
+        })
+        .catch((error) => {
+            res.json({
+                message: error.message,
+            });
+        });
 });
 
-app.delete("/:id", async (req, res) => {
-  let param = {
-    id: req.params.id,
-  };
+app.delete("/:id", async(req, res) => {
+    let param = {
+        id: req.params.id,
+    };
 
-  transaksi
-    .destroy({ where: param })
-    .then((result) => {
-      res.json({
-        message: "Data Deleted",
-      });
-    })
-    .catch((error) => {
-      res.json({
-        message: error.message,
-      });
-    });
+    transaksi
+        .destroy({ where: param })
+        .then((result) => {
+            res.json({
+                message: "Data Deleted",
+            });
+        })
+        .catch((error) => {
+            res.json({
+                message: error.message,
+            });
+        });
 });
 
 module.exports = app;
