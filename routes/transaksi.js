@@ -10,35 +10,35 @@ app.use(auth);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", async (req, res) => {
-  await detail_transaksi.findAll({
-      include: [
-        {
-          model: models.transaksi, as:"transaksi",
-          include: [
-            { model: models.outlet, as: "outlet" },
-            { model: models.member, as: "member" },
-            {
-              model: models.user, as: "user",
-              attribues: ["id", "name", "username", "id_outlet", "role"],
-              include: {
-                model: models.outlet, as: "outlet",
-              },
-            },
-          ],
-        },
-        { model: models.paket, as: "paket" },
-      ],
-    })
-    .then((result) => {
-      res.json(result);
-    })
-    .catch((error) => {
-      res.json({
-        message: error.message,
-      });
-    });
-});
+// app.get("/", async (req, res) => {
+//   await detail_transaksi.findAll({
+//       include: [
+//         {
+//           model: models.transaksi, as:"transaksi",
+//           include: [
+//             { model: models.outlet, as: "outlet" },
+//             { model: models.member, as: "member" },
+//             {
+//               model: models.user, as: "user",
+//               attribues: ["id", "name", "username", "id_outlet", "role"],
+//               include: {
+//                 model: models.outlet, as: "outlet",
+//               },
+//             },
+//           ],
+//         },
+//         { model: models.paket, as: "paket" },
+//       ],
+//     })
+//     .then((result) => {
+//       res.json(result);
+//     })
+//     .catch((error) => {
+//       res.json({
+//         message: error.message,
+//       });
+//     });
+// });
 
 app.get("/:id", async (req, res) => {
   transaksi

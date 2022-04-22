@@ -9,8 +9,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.hasMany(models.paket, {
+        foreignKey: "id",
+        as: "paket",
+      });
     }
   }
+  
   outlet.init(
     {
       nama: DataTypes.STRING,
