@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const user = require("../models/index").user;
+const outlet = require("../models/index").outlet;
 const md5 = require("md5");
 const { auth } = require("../auth");
 const multer = require("multer");
@@ -24,9 +25,17 @@ const upload = multer({ storage: storage });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", async (req, res) => {
+app.get("/", (req, res) => {
   user
-    .findAll()
+    .findAll({
+      include: [
+        {
+          model: outlet,
+          as: "outlet",
+          required: true,
+        },
+      ],
+    })
     .then((result) => {
       res.json(result);
     })
@@ -39,9 +48,18 @@ app.get("/", async (req, res) => {
 
 app.get("/:id", async (req, res) => {
   user
-    .findOne({ where: { id: req.params.id } })
-    .then((user) => {
-      res.json(user);
+    .findOne({
+      where: { id: req.params.id },
+      include: [
+        {
+          model: outlet,
+          as: "outlet",
+          required: true,
+        },
+      ],
+    })
+    .then((paket) => {
+      res.json(paket);
     })
     .catch((error) => {
       res.json({ message: error.message });

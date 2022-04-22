@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const member = require("../models/index").member;
 const { auth } = require("../auth");
-// app.use(auth);
+app.use(auth);
 
 const multer = require("multer");
 const path = require("path");

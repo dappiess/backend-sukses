@@ -1,32 +1,50 @@
 const express = require("express");
 const app = express();
 const paket = require("../models/index").paket;
+const outlet = require("../models/index").outlet;
 const { auth } = require("../auth");
 // app.use(auth);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", async(req, res) => {
-    paket
-        .findAll()
-        .then((result) => {
-            res.json(result);
-        })
-        .catch((error) => {
-            res.json({
-                message: error.message,
-            });
-        });
+app.get("/", (req, res) => {
+  paket
+    .findAll({
+      include: [
+        {
+          model: outlet, as:"outlet",
+          required: true,
+        },
+      ],
+    })
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((error) => {
+      res.json({
+        message: error.message,
+      });
+    });
 });
+
 app.get("/:id", async(req, res) => {
     paket
-        .findOne({ where: { id: req.params.id } })
-        .then((paket) => {
-            res.json(paket);
-        })
-        .catch((error) => {
-            res.json({ message: error.message });
-        });
+      .findOne({
+        where: { id: req.params.id },
+        include: [
+          {
+            model: outlet,
+            as: "outlet",
+            required: true,
+          },
+        ],
+      })
+      .then((paket) => {
+        res.json(paket);
+      })
+      .catch((error) => {
+        res.json({ message: error.message });
+      });
 });
 app.post("/", async(req, res) => {
     let newPaket = {
